@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    //unwrap 做的事情 （ a! ）就是提取 .Some 中的 value 变量
+    //unwrap 做的事情 (!)就是提取 .Some 中的 value 变量
     @IBOutlet weak var display: UILabel!
     
     var userInTheMiddleOfTyping = false
@@ -34,17 +34,22 @@ class ViewController: UIViewController {
            display.text = String(newValue)
         }
     }
-
+    
+    private var brain = CalculatorBrain()
+    
     @IBAction func performOperation(_ sender: UIButton) {
+        
+        if userInTheMiddleOfTyping {
+            brain.setOperand(displayValue)
+            userInTheMiddleOfTyping = false
+        }
+        
         if let mathematicalSymbol = sender.currentTitle {
-            switch mathematicalSymbol {
-                case "π":
-                    displayValue = Double.pi
-                case "√":
-                    displayValue = sqrt(displayValue)
-            default:
-                break
-            }
+            brain.performOperation(mathematicalSymbol)
+        }
+        
+        if let result = brain.result {
+            displayValue = result
         }
     }
 }
