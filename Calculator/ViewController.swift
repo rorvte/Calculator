@@ -13,10 +13,30 @@ class ViewController: UIViewController {
     //unwrap 做的事情 (!)就是提取 .Some 中的 value 变量
     @IBOutlet weak var display: UILabel!
     
-    var userInTheMiddleOfTyping = false
+    var userInTheMiddleOfTyping = false {
+        didSet {
+            if !userInTheMiddleOfTyping {
+                userInTheMiddleOfFloatingtyping = false
+            }
+        }
+    }
+    var userInTheMiddleOfFloatingtyping = false
 
     @IBAction func touchDigit(_ sender: UIButton) {
-        let digit = sender.currentTitle!
+        var digit = sender.currentTitle!
+        
+        if digit == "." {
+            if userInTheMiddleOfFloatingtyping {
+                return
+            }
+            
+            if !userInTheMiddleOfTyping {
+                digit = "0."
+            }
+            
+            userInTheMiddleOfFloatingtyping = true
+        }
+        
         if userInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
             display.text = textCurrentlyInDisplay + digit
