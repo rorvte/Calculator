@@ -8,14 +8,6 @@
 
 import Foundation
 
-func changeSign(operand: Double) -> Double {
-    return -operand
-}
-
-func multiply(op1: Double, op2: Double) -> Double {
-    return op1 * op2
-}
-
 struct CalculatorBrain {
     
     private var accumulator: Double?
@@ -29,14 +21,15 @@ struct CalculatorBrain {
     
     private var operations: Dictionary<String, Operation> = [
         "π" : Operation.constant(Double.pi),
+        
         "e" : Operation.constant(M_E),
         "cos": Operation.unaryOperation(cos),
         "√": Operation.unaryOperation(sqrt),
-        "±": Operation.unaryOperation(changeSign),
-        "×": Operation.binaryOperation(multiply),
-//        "+": Operation.binaryOperation(add),
-//        "-": Operation.binaryOperation(subtract),
-//        "/": Operation.binaryOperation(divide),
+        "±": Operation.unaryOperation({-$0}),
+        "×": Operation.binaryOperation({$0 * $1}),
+        "+": Operation.binaryOperation({$0 + $1}),
+        "−": Operation.binaryOperation({$0 - $1}),
+        "÷": Operation.binaryOperation({$0 / $1}),
         "=": Operation.equals
     ]
     
@@ -54,9 +47,7 @@ struct CalculatorBrain {
                     pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator!)
                     accumulator = nil
                 }
-                break
             case .equals:
-                break
                 performPendingBinaryOperation()
             }
         }
@@ -70,6 +61,8 @@ struct CalculatorBrain {
         }
     }
     
+    private var pendingBinaryOperation: PendingBinaryOperation?
+    
     private struct PendingBinaryOperation {
         let function: (Double, Double) -> Double
         let firstOperand: Double
@@ -78,8 +71,6 @@ struct CalculatorBrain {
             return function(firstOperand, secondOperand)
         }
     }
-    
-    private var pendingBinaryOperation: PendingBinaryOperation?
     
     mutating func setOperand(_ Operand: Double) {
         accumulator = Operand
