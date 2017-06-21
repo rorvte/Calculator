@@ -92,7 +92,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="48" height="67"/>
                                                         <color key="backgroundColor" white="0.85683593749999998" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                        <state key="normal" title="π"/>
+                                                        <state key="normal" title="✅"/>
                                                         <connections>
                                                             <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="axZ-qR-dMt"/>
                                                         </connections>

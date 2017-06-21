@@ -10,6 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //使用_weak关键字 防止closure循环引用
+        brain.addUnaryOperation(named: "✅") { [weak weakSelf = self] in
+            weakSelf?.display.textColor = UIColor.green
+            return sqrt($0)
+        }
+    }
+    
     //unwrap 做的事情 (!)就是提取 .Some 中的 value 变量
     @IBOutlet weak var display: UILabel!
     
